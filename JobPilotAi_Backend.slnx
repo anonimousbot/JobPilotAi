@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="JobPilotAi_Backend/JobPilotAi_Backend.csproj" />
+  <Project Path="JobPilotAi_Backend.Tests/JobPilotAi_Backend.Tests.csproj" />
+</Solution>

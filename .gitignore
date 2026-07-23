@@ -1,0 +1,54 @@
+# Build outputs
+**/bin/
+**/obj/
+.build-verify/
+.dotnet/
+
+# User-specific / IDE
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs and local runtime data
+**/logs/
+**/storage/
+
+# Secrets and local configuration (never commit)
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/secrets.json
+**/*.pfx
+**/*.pem
+**/credentials.json
+
+# Node / frontend
+**/node_modules/
+**/dist/
+**/dist-ssr/
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+**/TestResults/
+**/coverage/
+*.trx
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Docker local overrides
+docker-compose.override.yml
