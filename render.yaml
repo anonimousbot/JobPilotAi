@@ -2,7 +2,7 @@ services:
   - type: web
     name: jobpilotai-backend
     runtime: docker
-    dockerfilePath: JobPilotAi_Backend/Dockerfile
+    dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /health
     envVars:
