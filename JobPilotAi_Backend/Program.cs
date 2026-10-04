@@ -73,6 +73,12 @@ try
     builder.Services.AddProblemDetails();
     builder.Services.AddCors(options =>
     {
+        options.AddDefaultPolicy(policy => policy
+            .SetIsOriginAllowed(_ => true)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+
         options.AddPolicy("Frontend", policy => policy
             .SetIsOriginAllowed(_ => true)
             .AllowAnyHeader()
@@ -115,7 +121,7 @@ try
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
     });
 
-    app.UseCors("Frontend");
+    app.UseCors();
     app.UseExceptionHandler();
 
     app.UseMiddleware<RequestLogContextMiddleware>();

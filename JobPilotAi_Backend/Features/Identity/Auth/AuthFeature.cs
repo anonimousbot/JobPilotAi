@@ -15,7 +15,7 @@ public static class AuthFeature
 {
     public static IEndpointRouteBuilder MapAuthFeature(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup(AuthRouteConsts.AuthGroup).WithTags("Auth");
+        var group = app.MapGroup(AuthRouteConsts.AuthGroup).WithTags("Auth").RequireCors("Frontend");
 
         group.MapPost(AuthRouteConsts.Login, LoginAsync)
             .AllowAnonymous()
