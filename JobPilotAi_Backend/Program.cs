@@ -157,7 +157,7 @@ try
     app.UseCors("Frontend");
     app.UseAuthorization();
 
-    app.MapGet("/", () => Results.Redirect("/swagger"));
+    app.MapMethods("/", ["GET", "HEAD"], () => Results.Redirect("/swagger"));
     app.MapRegisterUserFeature();
     app.MapAuthFeature();
     app.MapProfileFeature();
