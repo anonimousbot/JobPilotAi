@@ -99,7 +99,10 @@ try
     {
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        await dbContext.Database.MigrateAsync();
+        if (dbContext.Database.IsNpgsql())
+        {
+            await dbContext.Database.MigrateAsync();
+        }
     }
 
     var enableSwagger = app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("EnableSwagger", true);

@@ -36,41 +36,84 @@ public static class PersistenceServiceCollectionExtensions
     {
         if (string.IsNullOrWhiteSpace(connectionString)) return connectionString;
 
-        try
-        {
-            NpgsqlConnectionStringBuilder builder;
+        connectionString = connectionString.Trim().Trim('"', '\'');
 
-            if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
-                connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+            connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        {
+            try
             {
-                var uri = new Uri(connectionString);
-                var userInfo = uri.UserInfo.Split(':');
-                builder = new NpgsqlConnectionStringBuilder
+                var prefixIndex = connectionString.IndexOf("://", StringComparison.Ordinal);
+                var uriBody = connectionString.Substring(prefixIndex + 3);
+
+                string? userInfo = null;
+                string hostAndPath = uriBody;
+
+                var atIndex = uriBody.LastIndexOf('@');
+                if (atIndex >= 0)
                 {
-                    Host = uri.Host,
-                    Port = uri.Port > 0 ? uri.Port : 5432,
-                    Database = uri.AbsolutePath.TrimStart('/'),
-                    Username = userInfo.Length > 0 ? Uri.UnescapeDataString(userInfo[0]) : string.Empty,
-                    Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty
+                    userInfo = uriBody.Substring(0, atIndex);
+                    hostAndPath = uriBody.Substring(atIndex + 1);
+                }
+
+                var slashIndex = hostAndPath.IndexOf('/');
+                string hostAndPort = slashIndex >= 0 ? hostAndPath.Substring(0, slashIndex) : hostAndPath;
+                string pathAndQuery = slashIndex >= 0 ? hostAndPath.Substring(slashIndex + 1) : string.Empty;
+
+                var questionIndex = pathAndQuery.IndexOf('?');
+                string database = questionIndex >= 0 ? pathAndQuery.Substring(0, questionIndex) : pathAndQuery;
+
+                string host = hostAndPort;
+                int port = 5432;
+                var colonIndex = hostAndPort.IndexOf(':');
+                if (colonIndex >= 0)
+                {
+                    host = hostAndPort.Substring(0, colonIndex);
+                    if (int.TryParse(hostAndPort.Substring(colonIndex + 1), out var parsedPort))
+                    {
+                        port = parsedPort;
+                    }
+                }
+
+                string username = string.Empty;
+                string password = string.Empty;
+                if (!string.IsNullOrEmpty(userInfo))
+                {
+                    var userColon = userInfo.IndexOf(':');
+                    if (userColon >= 0)
+                    {
+                        username = Uri.UnescapeDataString(userInfo.Substring(0, userColon));
+                        password = Uri.UnescapeDataString(userInfo.Substring(userColon + 1));
+                    }
+                    else
+                    {
+                        username = Uri.UnescapeDataString(userInfo);
+                    }
+                }
+
+                var builder = new NpgsqlConnectionStringBuilder
+                {
+                    Host = host,
+                    Port = port,
+                    Database = database,
+                    Username = username,
+                    Password = password
                 };
 
-                if (!string.Equals(uri.Host, "localhost", StringComparison.OrdinalIgnoreCase) &&
-                    !string.Equals(uri.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(host, "localhost", StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(host, "127.0.0.1", StringComparison.OrdinalIgnoreCase))
                 {
                     builder.SslMode = SslMode.Require;
                 }
-            }
-            else
-            {
-                builder = new NpgsqlConnectionStringBuilder(connectionString);
-            }
 
-            builder["GssEncMode"] = "Disable";
-            return builder.ConnectionString;
+                return builder.ConnectionString;
+            }
+            catch
+            {
+                return connectionString;
+            }
         }
-        catch
-        {
-            return connectionString;
-        }
+
+        return connectionString;
     }
 }
