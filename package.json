@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "cd JobPilotAiFrontend/jobpilotaifrontend && npm install && npm run build",
+    "build": "cd JobPilotAiFrontend/jobpilotaifrontend && npm install && npm run build && mkdir -p ../../dist && cp -r dist/* ../../dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd JobPilotAiFrontend/jobpilotaifrontend && npm install && npm run build && mkdir -p ../../dist && cp -r dist/* ../../dist/",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
