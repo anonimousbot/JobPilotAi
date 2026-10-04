@@ -116,10 +116,27 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     headers.set('Authorization', `Bearer ${auth.accessToken}`)
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...init,
-    headers,
-  })
+  let response: Response = null as any
+  const maxRetries = 2
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      response = await fetch(`${API_BASE_URL}${path}`, {
+        ...init,
+        headers,
+      })
+      break
+    } catch (err: any) {
+      if (attempt === maxRetries) {
+        throw new ApiError(
+          'Unable to connect to the backend server. The server may be starting up from sleep (Render cold start) or experiencing connection issues. Please wait a moment and try again.',
+          0,
+          err
+        )
+      }
+      await new Promise(resolve => setTimeout(resolve, 2000))
+    }
+  }
 
   if (response.status === 401 && auth?.refreshToken) {
     if (!isRefreshing) {

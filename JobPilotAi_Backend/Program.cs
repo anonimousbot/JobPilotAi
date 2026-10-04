@@ -115,6 +115,7 @@ try
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
     });
 
+    app.UseCors("Frontend");
     app.UseExceptionHandler();
 
     app.UseMiddleware<RequestLogContextMiddleware>();
@@ -139,7 +140,6 @@ try
             }
         };
     });
-    app.UseCors("Frontend");
     app.UseAuthorization();
 
     app.MapMethods("/", ["GET", "HEAD"], () => Results.Redirect("/swagger"));
