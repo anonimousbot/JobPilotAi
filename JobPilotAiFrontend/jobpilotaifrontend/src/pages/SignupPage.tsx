@@ -120,12 +120,12 @@ export default function SignupPage() {
                   <label className="app-label">Password</label>
                   <div className="app-input-wrap">
                     <span className="material-symbols-outlined app-input-icon">lock</span>
-                    <input className="app-input" type={showPass ? 'text' : 'password'} placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} style={{ paddingRight: 42 }} />
+                    <input className="app-input" type={showPass ? 'text' : 'password'} placeholder="••••••••••••" value={password} onChange={e => setPassword(e.target.value)} required minLength={12} style={{ paddingRight: 42 }} />
                     <button type="button" onClick={() => setShowPass(s => !s)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--app-outline)' }}>
                       <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{showPass ? 'visibility_off' : 'visibility'}</span>
                     </button>
                   </div>
-                  <p style={{ fontSize: 11, color: 'var(--app-on-surface-var)', marginTop: 4 }}>Must be at least 8 characters long.</p>
+                  <p style={{ fontSize: 11, color: 'var(--app-on-surface-var)', marginTop: 4 }}>Must be at least 12 characters long, with uppercase, lowercase, and a number.</p>
                 </div>
                 <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'var(--app-on-surface-var)', cursor: 'pointer', lineHeight: 1.5 }}>
                   <input type="checkbox" style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} required />

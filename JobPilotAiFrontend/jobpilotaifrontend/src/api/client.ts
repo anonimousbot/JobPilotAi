@@ -192,17 +192,24 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return payload as T
 }
 
-function readErrorMessage(payload: ApiEnvelope<unknown> | undefined, fallback: string) {
-  if (!payload?.errors) return fallback || 'Request failed'
-  if (Array.isArray(payload.errors)) return payload.errors.join(', ')
-  if (typeof payload.errors === 'string') return payload.errors
-  if (typeof payload.errors === 'object') {
-    return Object.values(payload.errors)
-      .flat()
-      .filter(Boolean)
-      .join(', ') || fallback
+function readErrorMessage(payload: any, fallback: string) {
+  if (!payload) return fallback || 'Request failed'
+  if (typeof payload === 'string') return payload
+  if (payload.errors) {
+    if (Array.isArray(payload.errors)) return payload.errors.join('. ')
+    if (typeof payload.errors === 'string') return payload.errors
+    if (typeof payload.errors === 'object') {
+      const msgs = Object.values(payload.errors)
+        .flat()
+        .filter(Boolean)
+        .join('. ')
+      if (msgs) return msgs
+    }
   }
-  return fallback
+  if (payload.detail) return payload.detail
+  if (payload.title) return payload.title
+  if (payload.message) return payload.message
+  return fallback || 'Request failed'
 }
 
 export const api = {
