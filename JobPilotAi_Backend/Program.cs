@@ -125,11 +125,12 @@ try
         });
     }
 
-    app.UseExceptionHandler();
-    if (!app.Environment.IsDevelopment())
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
     {
-        app.UseHttpsRedirection();
-    }
+        ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+    });
+
+    app.UseExceptionHandler();
 
     app.UseMiddleware<RequestLogContextMiddleware>();
     app.UseSerilogRequestLogging(options =>
@@ -156,6 +157,7 @@ try
     app.UseCors("Frontend");
     app.UseAuthorization();
 
+    app.MapGet("/", () => Results.Redirect("/swagger"));
     app.MapRegisterUserFeature();
     app.MapAuthFeature();
     app.MapProfileFeature();
