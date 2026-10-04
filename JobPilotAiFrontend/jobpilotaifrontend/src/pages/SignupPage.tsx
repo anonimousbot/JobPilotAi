@@ -55,51 +55,47 @@ export default function SignupPage() {
         </div>
       </header>
 
-      <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, maxWidth: 1100, width: '100%', alignItems: 'center' }}>
-          {/* Left editorial */}
+      <main className="auth-split-layout" style={{ flex: 1 }}>
+        {/* Left editorial */}
+        <div className="auth-editorial-panel" style={{ borderRight: 'none', borderBottom: 'none' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', borderRadius: 999, background: 'var(--app-secondary-cont)', color: 'var(--app-on-sec-cont)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', width: 'fit-content' }}>
               <span className="material-symbols-outlined" style={{ fontSize: 16 }}>verified</span>
               Professional Velocity
             </div>
-            <h1 style={{ fontFamily: 'Hanken Grotesk', fontSize: 48, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--app-on-surface)', margin: 0, lineHeight: 1.15 }}>
+            <h1 style={{ fontFamily: 'Hanken Grotesk', fontSize: 44, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--app-on-surface)', margin: 0, lineHeight: 1.15 }}>
               Elevate your career with <span style={{ color: 'var(--app-secondary)' }}>Precision AI.</span>
             </h1>
-            <p style={{ fontSize: 17, color: 'var(--app-on-surface-var)', lineHeight: 1.65, maxWidth: 440 }}>
+            <p style={{ fontSize: 16, color: 'var(--app-on-surface-var)', lineHeight: 1.65, maxWidth: 440 }}>
               Join 10,000+ professionals accelerating their careers with AI-driven ATS optimization and professional momentum tracking.
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: -12, marginTop: 4 }}>
-              {[
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuDjR_qkZxICGEu9JQJC4LK6-u22GZdUz-YGMBMeBaVxNk3JA2DLjItTsD8VHkO5qhGb-OBBjth4TcEsuElEKrQ6KYid-Jf_kn2WecLV3k2lXZzzW4JpkfVqpOKt6cv5e-2vcRhPwTGYOEDXRc08I3FaVFLM0mykSJjSsjovVOaMXagvnu4hnD6GTHZ5_yFj0h-Gm_VwqSvoAVYbbhzd1nRKmeFjXfNylBT4klPVwt3qodcVf_79e5hTkU--PF4qz-Y6Kdth2RmlxU2_',
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuBeMerSqOOLxHdhRb-C7rMgy6hb7YM8yRbbTn8P4hCnEDt_-JWDEuA5j4r-wlosKHHD6iHMJAOXaKH1HW9Gh9jD9h6ovdbgaqZYsOLvGe0sh1sBezwm7-M0Kyio3wBi-zlbDvfZAbBIQb8Sp4DnIZQiJCROY7A2_hi5TPriKyrCP-gBe2o7VlA0LrfiVjTDiXGzsdDyCWh6i67BhtRubFY5l6KYzLlRiKMrtRX6--_Her3rbEOHX2SQjzAWPQ4X8eQQez9v8PhXvX9m',
-              ].map((src, i) => (
-                <div key={i} style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid var(--app-surface)', overflow: 'hidden', marginLeft: i > 0 ? -10 : 0, background: '#cbd5e1' }}>
-                  <img src={src} alt="member" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              ))}
-              <span style={{ marginLeft: 16, fontSize: 13, fontWeight: 600, color: 'var(--app-on-surface-var)' }}>+10k active users</span>
-            </div>
-            <div style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid var(--app-outline-var)', boxShadow: '0 8px 24px rgba(15,23,42,0.08)', marginTop: 8, position: 'relative', aspectRatio: '16/9' }}>
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC2sY-OCMu-ya3jG5HWufC4U5l1oeq-hqd9G1Xfzl1TZi9u4WfxlWURegGSUovA5SIjCRzv0jAJEqGtPBoSuFwXKQxaEnpI0ADjvI9JQ9zm55sXFhBRHWcJegZIQCXTCVTTLruzPwj-9v2MH_0A0jsMsOSMIs3IxZ2bZImtY-Z40tGPN7_je-KqHmFA-zHFQc42KADwpW5HftVF8I73R7-jmTqOl7uf5UyFnp-wN9kZw0zWUcJos3ShMb4qp1JeWRp-MFdLzAir8UT" alt="Dashboard Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--app-surface-lowest), transparent)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {['DC', 'SJ'].map((initials, i) => (
+                  <div key={i} style={{ width: 36, height: 36, borderRadius: '50%', border: '2px solid var(--app-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--app-primary-cont)', color: 'var(--app-on-primary-cont)', fontSize: 12, fontWeight: 700, marginLeft: i > 0 ? -10 : 0 }}>
+                    {initials}
+                  </div>
+                ))}
+              </div>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--app-on-surface-var)' }}>+10k active users</span>
             </div>
           </div>
+        </div>
 
-          {/* Right: Card */}
-          <div>
-            <div className="auth-card">
-              <h2 style={{ fontFamily: 'Hanken Grotesk', fontSize: 24, fontWeight: 700, color: 'var(--app-on-surface)', marginBottom: 6 }}>Create Account</h2>
-              <p style={{ fontSize: 13, color: 'var(--app-on-surface-var)', marginBottom: 24 }}>Start your journey to professional velocity today.</p>
+        {/* Right: Card */}
+        <div className="auth-form-container">
+          <div className="auth-card">
+            <h2 style={{ fontFamily: 'Hanken Grotesk', fontSize: 24, fontWeight: 700, color: 'var(--app-on-surface)', marginBottom: 6 }}>Create Account</h2>
+            <p style={{ fontSize: 13, color: 'var(--app-on-surface-var)', marginBottom: 24 }}>Start your journey to professional velocity today.</p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
-                <button className="social-btn" style={{ fontSize: 13, padding: '10px' }}>
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk-YzVG2dilX9FRFzU5KSvyspgj5fc0TWkeXo4qgK07YYEdLbFpYb65mGdmL2CrnY3RAoNk2_-HFxgiC6VGhO47DF44GtUuIxuYej2JHecpkHBvi82l8UjUTfNCUzBqc6R0nzGaTGAkcGFklhVWpLorj-YMCiuNdIpnE1K4mSMYsBAoa6dyNYMdPuoeng6IXBFLYAbDHG0UcZ5kaM9m9iwaka-a18fu8R16df-_vf9G5e9BlIpuFj_xvnmj_z0XhbySlsVXDdEXGZn" alt="Google" style={{ width: 18, height: 18 }} /> Google
-                </button>
-                <button className="social-btn" style={{ fontSize: 13, padding: '10px' }}>
-                  <svg width="18" height="18" fill="#0077B5" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg> LinkedIn
-                </button>
-              </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 20 }}>
+              <button className="social-btn" type="button" style={{ fontSize: 13, padding: '10px' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg> Google
+              </button>
+              <button className="social-btn" type="button" style={{ fontSize: 13, padding: '10px' }}>
+                <svg width="18" height="18" fill="#0077B5" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg> LinkedIn
+              </button>
+            </div>
 
               <div className="auth-divider"><div className="auth-divider-line" /><span className="auth-divider-text">Or continue with</span><div className="auth-divider-line" /></div>
 
@@ -143,7 +139,6 @@ export default function SignupPage() {
               </p>
             </div>
           </div>
-        </div>
       </main>
     </div>
   )
