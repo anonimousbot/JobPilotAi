@@ -73,26 +73,11 @@ try
     builder.Services.AddProblemDetails();
     builder.Services.AddCors(options =>
     {
-        var configuredOrigins = builder.Configuration
-            .GetSection("Cors:AllowedOrigins")
-            .Get<string[]>() ?? [];
-        var allowedOrigins = new[]
-            {
-                "http://localhost:3000",
-                "http://localhost:3001",
-                "http://localhost:5173",
-                "https://localhost:5173",
-                "http://localhost:51151",
-                "http://localhost:51152"
-            }
-            .Concat(configuredOrigins)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-
         options.AddPolicy("Frontend", policy => policy
-            .WithOrigins(allowedOrigins)
+            .SetIsOriginAllowed(_ => true)
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod()
+            .AllowCredentials());
     });
     builder.Services.AddValidators();
     builder.Services.AddApplicationCore(builder.Configuration);

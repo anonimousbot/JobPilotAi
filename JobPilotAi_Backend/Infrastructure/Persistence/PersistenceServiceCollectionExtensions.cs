@@ -36,14 +36,16 @@ public static class PersistenceServiceCollectionExtensions
     {
         if (string.IsNullOrWhiteSpace(connectionString)) return connectionString;
 
-        if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
-            connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        try
         {
-            try
+            NpgsqlConnectionStringBuilder builder;
+
+            if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+                connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
             {
                 var uri = new Uri(connectionString);
                 var userInfo = uri.UserInfo.Split(':');
-                var builder = new NpgsqlConnectionStringBuilder
+                builder = new NpgsqlConnectionStringBuilder
                 {
                     Host = uri.Host,
                     Port = uri.Port > 0 ? uri.Port : 5432,
@@ -57,15 +59,18 @@ public static class PersistenceServiceCollectionExtensions
                 {
                     builder.SslMode = SslMode.Require;
                 }
-
-                return builder.ConnectionString;
             }
-            catch
+            else
             {
-                return connectionString;
+                builder = new NpgsqlConnectionStringBuilder(connectionString);
             }
-        }
 
-        return connectionString;
+            builder["GssEncMode"] = "Disable";
+            return builder.ConnectionString;
+        }
+        catch
+        {
+            return connectionString;
+        }
     }
 }

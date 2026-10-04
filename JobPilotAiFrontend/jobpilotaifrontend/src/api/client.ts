@@ -10,7 +10,9 @@ import type {
   UploadResumeResponse,
 } from './types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://localhost:7176'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL && import.meta.env.VITE_API_BASE_URL !== 'http://localhost:5217')
+  ? import.meta.env.VITE_API_BASE_URL
+  : (import.meta.env.PROD ? 'https://jobpilotai-c4j4.onrender.com' : 'http://localhost:5217')
 const AUTH_KEY = 'jobpilot.auth'
 
 type ApiEnvelope<T> = {
