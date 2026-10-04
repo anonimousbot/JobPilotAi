@@ -31,8 +31,10 @@ export class ApiError extends Error {
     details?: unknown,
   ) {
     super(message)
+    this.name = 'ApiError'
     this.status = status
     this.details = details
+    Object.setPrototypeOf(this, ApiError.prototype)
   }
 }
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, setStoredAuth } from '../api/client'
+import { api, setStoredAuth } from '../api/client'
 import '../App.css'
 
 export default function SignupPage() {
@@ -38,8 +38,9 @@ export default function SignupPage() {
       })
 
       navigate('/onboarding/goals')
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Unable to create your account. Please try again.')
+    } catch (err: any) {
+      const message = err?.message || (typeof err === 'string' ? err : 'Unable to create your account. Please try again.')
+      setError(message)
     } finally {
       setLoading(false)
     }

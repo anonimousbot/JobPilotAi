@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, setStoredAuth } from '../api/client'
+import { api, setStoredAuth } from '../api/client'
 import '../App.css'
 
 export default function LoginPage() {
@@ -34,8 +34,9 @@ export default function LoginPage() {
         // If profile fetch fails, default to dashboard
         navigate('/dashboard')
       }
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Unable to sign in. Please try again.')
+    } catch (err: any) {
+      const message = err?.message || (typeof err === 'string' ? err : 'Unable to sign in. Please try again.')
+      setError(message)
     } finally {
       setLoading(false)
     }
