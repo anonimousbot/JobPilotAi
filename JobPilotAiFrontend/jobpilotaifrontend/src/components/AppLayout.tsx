@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AppSidebar from '../components/AppSidebar'
-import '../app.css'
+import '../App.css'
 
 export default function AppLayout({ children, title, subtitle, actions }: {
   children: React.ReactNode

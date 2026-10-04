@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api/client'
-import '../app.css'
+import '../App.css'
 
 export default function OnboardingResumePage() {
   const navigate = useNavigate()

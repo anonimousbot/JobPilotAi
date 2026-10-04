@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { api, ApiError, getStoredAuth } from '../api/client'
 import AppLayout from '../components/AppLayout'
-import '../app.css'
+import '../App.css'
 
 export default function ProfilePage() {
   const auth = getStoredAuth()

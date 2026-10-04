@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError, setStoredAuth } from '../api/client'
-import '../app.css'
+import '../App.css'
 
 export default function SignupPage() {
   const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../app.css'
+import '../App.css'
 
 const goals = [
   { icon: 'rocket_launch', title: 'Landing a new job', desc: 'Finding the perfect role in your current industry.', value: 'land-new-job' },

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { api, ApiError, formatDate } from '../api/client'
 import type { SubscriptionResponse } from '../api/types'
 import AppLayout from '../components/AppLayout'
-import '../app.css'
+import '../App.css'
 
 const plans = [
   {

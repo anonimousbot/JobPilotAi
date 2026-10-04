@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api/client'
 import type { JobMatchComparisonResponse, JobMatchResponse } from '../api/types'
 import AppLayout from '../components/AppLayout'
-import '../app.css'
+import '../App.css'
 
 export default function JobMatchPage() {
   const navigate = useNavigate()

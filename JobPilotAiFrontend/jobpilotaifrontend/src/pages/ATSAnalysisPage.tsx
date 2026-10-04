@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { api, ApiError, formatDate } from '../api/client'
 import type { AnalysisResponse, ResumeResponse } from '../api/types'
 import AppLayout from '../components/AppLayout'
-import '../app.css'
+import '../App.css'
 
 export default function ATSAnalysisPage() {
   const navigate = useNavigate()
