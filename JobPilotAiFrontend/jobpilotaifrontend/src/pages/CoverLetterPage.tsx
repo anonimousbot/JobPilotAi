@@ -194,19 +194,34 @@ export default function CoverLetterPage() {
           </div>
 
           <div className="editor-panel">
-            <div className="editor-panel-header"><span className="editor-panel-title">AI Quality Score</span></div>
+            <div className="editor-panel-header"><span className="editor-panel-title">AI Quality Metrics</span></div>
             <div style={{ padding: '20px' }}>
-              {[['Tone Match', 92], ['Relevance', 88], ['Readability', 96], ['Uniqueness', 85]].map(([label, val]) => (
-                <div key={label} style={{ marginBottom: 14 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--app-on-surface)' }}>{label}</span>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--app-secondary)' }}>{val}%</span>
-                  </div>
-                  <div className="progress-bar-track">
-                    <div className="progress-bar-fill-secondary" style={{ width: `${val}%` }} />
-                  </div>
+              {content ? (
+                (() => {
+                  const words = content.trim().split(/\s+/).filter(Boolean).length
+                  const metrics = [
+                    { label: 'Tone Alignment', val: tone === 'Professional' ? 95 : tone === 'Enthusiastic' ? 92 : tone === 'Concise' ? 88 : 90 },
+                    { label: 'Relevance', val: activeLetter?.jobTitle ? 92 : 75 },
+                    { label: 'Readability', val: Math.min(98, Math.max(60, 70 + Math.min(25, Math.round(words / 12)))) },
+                    { label: 'Completeness', val: Math.min(100, Math.max(40, Math.round((words / 250) * 100))) }
+                  ]
+                  return metrics.map(({ label, val }) => (
+                    <div key={label} style={{ marginBottom: 14 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--app-on-surface)' }}>{label}</span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--app-secondary)' }}>{val}%</span>
+                      </div>
+                      <div className="progress-bar-track">
+                        <div className="progress-bar-fill-secondary" style={{ width: `${val}%` }} />
+                      </div>
+                    </div>
+                  ))
+                })()
+              ) : (
+                <div style={{ fontSize: 13, color: 'var(--app-on-surface-var)', textAlign: 'center', padding: '12px 0' }}>
+                  Generate or select a cover letter to view real-time quality scores.
                 </div>
-              ))}
+              )}
             </div>
           </div>
 

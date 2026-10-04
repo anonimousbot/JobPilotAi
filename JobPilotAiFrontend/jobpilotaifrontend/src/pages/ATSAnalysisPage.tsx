@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError, formatDate } from '../api/client'
 import type { AnalysisResponse, ResumeResponse } from '../api/types'
@@ -23,16 +23,6 @@ export default function ATSAnalysisPage() {
   }
   const latest = analyses[0]
   const selectedResume = resumes.find(r => r.id === selectedResumeId) || resumes[0]
-  const keywords = useMemo(() => {
-    if (!latest) return []
-    return [
-      { name: 'Keywords', pct: latest.keywordMatchScore },
-      { name: 'Skills Coverage', pct: latest.skillsCoverageScore },
-      { name: 'Formatting', pct: latest.formattingScore },
-      { name: 'Experience', pct: latest.experienceScore },
-      { name: 'Education', pct: latest.educationScore },
-    ]
-  }, [latest])
 
   useEffect(() => {
     void loadData()
@@ -335,7 +325,7 @@ export default function ATSAnalysisPage() {
           <div style={{ padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
             {(latest?.recommendations.length ? latest.recommendations : ['Upload a resume and create an analysis to unlock AI recommendations.']).map((recommendation, index) => (
               <div key={recommendation} style={{ padding: 16, background: 'var(--app-surface)', borderRadius: 12, border: '1px solid var(--app-outline-var)', display: 'flex', gap: 14 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(99,102,241,0.1)', display: 'flex', alignItems: 'center', justifycontent: 'center', color: '#6366f1', flexShrink: 0 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(99,102,241,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366f1', flexShrink: 0 }}>
                   <span className="material-symbols-outlined" style={{ fontSize: 20 }}>auto_awesome</span>
                 </div>
                 <div>

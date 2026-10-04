@@ -29,6 +29,16 @@
 }
 
 /* ---- Sidebar ---- */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .app-sidebar {
   position: fixed;
   left: 0; top: 0;
@@ -41,8 +51,19 @@
   padding: 24px 0;
   z-index: 40;
   overflow-y: auto;
+  transition: transform 0.3s ease;
 }
-@media (max-width: 768px) { .app-sidebar { display: none; } }
+@media (max-width: 768px) {
+  .app-sidebar {
+    display: none;
+    z-index: 999;
+    width: 280px;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+  }
+  .app-sidebar.mobile-open {
+    display: flex;
+  }
+}
 
 .sidebar-logo-wrap {
   display: flex;

@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: jobpilotai-backend
+    runtime: docker
+    dockerfilePath: JobPilotAi_Backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        fromDatabase:
+          name: jobpilotai-db
+          property: connectionString
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: JobPilotAi
+      - key: EnableSwagger
+        value: "true"
+      - key: Ai__Provider
+        value: Gemini
+      - key: Ai__Gemini__ApiKey
+        sync: false
+      - key: Cors__AllowedOrigins__0
+        value: http://localhost:5173
+
+databases:
+  - name: jobpilotai-db
+    databaseName: jobpilotai
+    user: jobpilotai_user
+    plan: free

@@ -81,7 +81,7 @@ export default function JobMatchPage() {
               </div>
               <div className="job-card-match">{comparison.matchScore}%<small>Match</small></div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginTop: 12 }}>
               <div style={{ color: 'var(--app-on-surface-var)' }}><strong>Matched:</strong> {comparison.matchedSkills.join(', ')}</div>
               <div style={{ color: 'var(--app-on-surface-var)' }}><strong>Missing:</strong> {comparison.missingSkills.join(', ')}</div>
             </div>
@@ -89,7 +89,7 @@ export default function JobMatchPage() {
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
         {[
           { label: 'Total Matches', value: String(jobs.length), icon: 'hub' },
           { label: 'High Match (>80%)', value: String(jobs.filter(job => job.matchScore > 80).length), icon: 'star' },
@@ -107,7 +107,7 @@ export default function JobMatchPage() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {jobs.map(job => (
           <div key={job.id} className="job-card">
             <div className="job-card-header">
@@ -126,15 +126,15 @@ export default function JobMatchPage() {
               {job.tags.map(t => <span key={t} className="job-tag">{t}</span>)}
               {job.saved && <span className="job-tag" style={{ background: 'var(--app-secondary-cont)' }}>Saved</span>}
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button className="btn-app-primary" style={{ flex: 1, justifyContent: 'center', fontSize: 12 }} onClick={() => navigate('/generate-cover-letter')}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button className="btn-app-primary" style={{ flex: 1, minWidth: 140, justifyContent: 'center', fontSize: 12 }} onClick={() => navigate('/generate-cover-letter')}>
                 <span className="material-symbols-outlined" style={{ fontSize: 15 }}>mail</span>
                 Generate Cover Letter
               </button>
-              <button className="btn-app-secondary" style={{ fontSize: 12, padding: '8px 12px' }} onClick={() => void compare(job.id)}>
+              <button className="btn-app-secondary" style={{ fontSize: 12, padding: '8px 12px' }} onClick={() => void compare(job.id)} title="Compare Skills">
                 <span className="material-symbols-outlined" style={{ fontSize: 15 }}>analytics</span>
               </button>
-              <button className="btn-app-secondary" style={{ fontSize: 12, padding: '8px 12px' }} onClick={() => void toggleSave(job)}>
+              <button className="btn-app-secondary" style={{ fontSize: 12, padding: '8px 12px' }} onClick={() => void toggleSave(job)} title={job.saved ? 'Unsave' : 'Save Job'}>
                 <span className="material-symbols-outlined" style={{ fontSize: 15 }}>{job.saved ? 'bookmark_remove' : 'bookmark_add'}</span>
               </button>
             </div>

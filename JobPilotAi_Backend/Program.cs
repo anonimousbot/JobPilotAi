@@ -14,6 +14,7 @@ using JobPilotAi_Backend.Features.Resumes;
 using JobPilotAi_Backend.Features.Subscriptions;
 using JobPilotAi_Backend.Features.System.Health;
 using JobPilotAi_Backend.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
@@ -102,7 +103,16 @@ try
 
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
+    var dbOptions = app.Services.GetRequiredService<DatabaseConnectionOptions>();
+    if (dbOptions.IsConfigured)
+    {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await dbContext.Database.MigrateAsync();
+    }
+
+    var enableSwagger = app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("EnableSwagger", true);
+    if (enableSwagger)
     {
         app.MapOpenApi();
         app.UseSwagger();

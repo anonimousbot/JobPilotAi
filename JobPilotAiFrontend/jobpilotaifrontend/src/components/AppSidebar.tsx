@@ -12,11 +12,12 @@ const navItems = [
   { icon: 'payments', label: 'Subscription', to: '/subscription' },
 ]
 
-export default function AppSidebar() {
+export default function AppSidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
   const navigate = useNavigate()
   const { theme, toggle } = useTheme()
 
   const handleLogout = async () => {
+    onClose?.()
     const auth = getStoredAuth()
     clearStoredAuth()
     if (auth?.refreshToken) {
@@ -29,86 +30,102 @@ export default function AppSidebar() {
     navigate('/')
   }
 
+  const handleNavClick = (path?: string) => {
+    onClose?.()
+    if (path) navigate(path)
+  }
+
   return (
-    <nav className="app-sidebar">
-      {/* Logo */}
-      <div className="sidebar-logo-wrap">
-        <div className="sidebar-logo-icon">
-          <span className="material-symbols-outlined">work</span>
+    <>
+      {isOpen && <div className="sidebar-backdrop" onClick={onClose} />}
+      <nav className={`app-sidebar${isOpen ? ' mobile-open' : ''}`}>
+        {/* Logo */}
+        <div className="sidebar-logo-wrap" style={{ justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="sidebar-logo-icon">
+              <span className="material-symbols-outlined">work</span>
+            </div>
+            <div>
+              <div className="sidebar-logo-name">JobPilotAi</div>
+              <div className="sidebar-logo-sub">Professional Suite</div>
+            </div>
+          </div>
+          {isOpen && (
+            <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--app-on-surface-var)' }}>
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          )}
         </div>
-        <div>
-          <div className="sidebar-logo-name">JobPilotAi</div>
-          <div className="sidebar-logo-sub">Professional Suite</div>
-        </div>
-      </div>
 
-      {/* Theme toggle */}
-      <button
-        onClick={toggle}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '12px 16px',
-          margin: '0 16px 16px',
-          background: 'var(--app-surface)',
-          border: '1px solid var(--app-outline-var)',
-          borderRadius: 8,
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 600,
-          color: 'var(--app-on-surface)',
-        }}
-      >
-        <span className="material-symbols-outlined">
-          {theme === 'dark' ? 'light_mode' : 'dark_mode'}
-        </span>
-        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-      </button>
-
-      {/* Nav Links */}
-      <div className="sidebar-nav">
-        {navItems.map(item => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              `sidebar-nav-item${isActive ? ' active' : ''}`
-            }
-          >
-            <span
-              className="material-symbols-outlined"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              {item.icon}
-            </span>
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-      </div>
-
-      {/* Bottom */}
-      <div className="sidebar-bottom">
+        {/* Theme toggle */}
         <button
-          className="sidebar-upgrade-btn"
-          onClick={() => navigate('/subscription')}
+          onClick={toggle}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '12px 16px',
+            margin: '0 16px 16px',
+            background: 'var(--app-surface)',
+            border: '1px solid var(--app-outline-var)',
+            borderRadius: 8,
+            cursor: 'pointer',
+            fontSize: 13,
+            fontWeight: 600,
+            color: 'var(--app-on-surface)',
+          }}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
-            workspace_premium
+          <span className="material-symbols-outlined">
+            {theme === 'dark' ? 'light_mode' : 'dark_mode'}
           </span>
-          Upgrade to Pro
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
-        <div className="sidebar-footer-links">
-          <NavLink to="/profile" className="sidebar-footer-link">
-            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>settings</span>
-            <span>Settings</span>
-          </NavLink>
-          <button type="button" onClick={handleLogout} className="sidebar-footer-link" style={{ background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
-            <span>Logout</span>
-          </button>
+
+        {/* Nav Links */}
+        <div className="sidebar-nav">
+          {navItems.map(item => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              onClick={() => handleNavClick()}
+              className={({ isActive }) =>
+                `sidebar-nav-item${isActive ? ' active' : ''}`
+              }
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                {item.icon}
+              </span>
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
         </div>
-      </div>
-    </nav>
+
+        {/* Bottom */}
+        <div className="sidebar-bottom">
+          <button
+            className="sidebar-upgrade-btn"
+            onClick={() => handleNavClick('/subscription')}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
+              workspace_premium
+            </span>
+            Upgrade to Pro
+          </button>
+          <div className="sidebar-footer-links">
+            <NavLink to="/profile" onClick={() => handleNavClick()} className="sidebar-footer-link">
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>settings</span>
+              <span>Settings</span>
+            </NavLink>
+            <button type="button" onClick={handleLogout} className="sidebar-footer-link" style={{ background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </>
   )
 }

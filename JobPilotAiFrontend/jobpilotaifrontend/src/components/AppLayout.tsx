@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import AppSidebar from '../components/AppSidebar'
 import '../app.css'
 
@@ -7,15 +8,21 @@ export default function AppLayout({ children, title, subtitle, actions }: {
   subtitle?: string
   actions?: React.ReactNode
 }) {
+  const [mobileOpen, setMobileOpen] = useState(false)
+
   return (
     <div className="app-layout">
-      <AppSidebar />
+      <AppSidebar isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
       <div className="app-main">
         {/* Mobile header */}
         <header className="app-mobile-header">
           <span className="app-mobile-logo">JobPilotAi</span>
-          <button style={{ color: 'var(--app-on-surface-var)', background: 'none', border: 'none', cursor: 'pointer' }}>
-            <span className="material-symbols-outlined">menu</span>
+          <button
+            onClick={() => setMobileOpen(o => !o)}
+            style={{ color: 'var(--app-on-surface-var)', background: 'none', border: 'none', cursor: 'pointer' }}
+            aria-label="Toggle navigation menu"
+          >
+            <span className="material-symbols-outlined">{mobileOpen ? 'close' : 'menu'}</span>
           </button>
         </header>
 

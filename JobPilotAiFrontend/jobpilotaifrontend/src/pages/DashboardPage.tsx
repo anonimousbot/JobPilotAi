@@ -23,7 +23,6 @@ export default function DashboardPage() {
     ])
   }, [])
 
-  const latestScore = analyses[0]?.atsScore ?? 0
   const profileStrength = useMemo(() => {
     const fields = [profile?.firstName, profile?.lastName, profile?.careerGoal, profile?.targetRole, profile?.careerLevel, resumes[0], analyses[0]]
     return Math.round((fields.filter(Boolean).length / fields.length) * 100)
@@ -136,29 +135,67 @@ export default function DashboardPage() {
         <div className="bento-card col-span-12">
           <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--app-outline-var)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--app-surface)' }}>
             <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--app-on-surface)' }}>Recent Activity</span>
-            <a style={{ fontSize: 12, color: 'var(--app-on-surface-var)', cursor: 'pointer', fontWeight: 600 }}>View All</a>
+            {(resumes.length > 0 || analyses.length > 0 || letters.length > 0) && (
+              <a onClick={() => navigate('/ats-analysis')} style={{ fontSize: 12, color: 'var(--app-primary)', cursor: 'pointer', fontWeight: 600 }}>
+                View All Activity
+              </a>
+            )}
           </div>
           <div className="activity-list">
-            {[
-              { icon: 'analytics', title: analyses[0] ? 'Latest ATS analysis completed' : 'No ATS analysis yet', sub: analyses[0] ? `${analyses[0].atsScore}% match score` : 'Run your first analysis', time: 'Now', badge: analyses[0] ? `${latestScore}% Match` : null, badgeClass: 'badge-green' },
-              { icon: 'mail', title: letters[0] ? 'Cover Letter Generated' : 'No cover letter yet', sub: letters[0] ? `Targeted for ${letters[0].jobTitle}` : 'Generate your first draft', time: 'Now', badge: null },
-              { icon: 'description', title: resumes[0]?.fileName ?? 'No resume uploaded', sub: resumes[0] ? 'Uploaded and ready for analysis' : 'Upload a PDF or DOCX', time: 'Now', badge: null, check: Boolean(resumes[0]) },
-            ].map((item, i) => (
-              <div key={i} className="activity-item">
-                <div className="activity-icon">
-                  <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{item.icon}</span>
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="activity-title">{item.title}</div>
-                  <div className="activity-sub">{item.sub}</div>
-                </div>
-                <div className="activity-meta">
-                  <span className="activity-time">{item.time}</span>
-                  {item.badge && <span className={`badge ${item.badgeClass}`} style={{ marginTop: 4 }}>{item.badge}</span>}
-                  {item.check && <span className="material-symbols-outlined" style={{ fontSize: 18, color: 'var(--app-secondary)', display: 'block', marginTop: 4 }}>check_circle</span>}
-                </div>
+            {resumes.length === 0 && analyses.length === 0 && letters.length === 0 ? (
+              <div style={{ padding: '32px 20px', textAlign: 'center', color: 'var(--app-on-surface-var)' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 36, color: 'var(--app-outline)', marginBottom: 8, display: 'block' }}>history</span>
+                <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--app-on-surface)' }}>No activity recorded yet</p>
+                <p style={{ fontSize: 13, marginTop: 4 }}>Upload your resume to kickstart your AI career suite.</p>
+                <button className="btn-app-primary" style={{ marginTop: 14, fontSize: 12 }} onClick={() => navigate('/resumes')}>
+                  Upload Resume
+                </button>
               </div>
-            ))}
+            ) : (
+              [
+                ...(analyses[0] ? [{
+                  icon: 'analytics',
+                  title: `ATS Analysis Run for Resume`,
+                  sub: `Overall match score: ${analyses[0].atsScore}%`,
+                  time: analyses[0].createdAt ? new Date(analyses[0].createdAt).toLocaleDateString() : 'Recent',
+                  badge: `${analyses[0].atsScore}% Match`,
+                  badgeClass: analyses[0].atsScore >= 75 ? 'badge-green' : 'badge-blue',
+                  onClick: () => navigate('/ats-analysis')
+                }] : []),
+                ...(letters[0] ? [{
+                  icon: 'mail',
+                  title: `Cover Letter Created for ${letters[0].jobTitle}`,
+                  sub: `Company: ${letters[0].companyName} • Tone: ${letters[0].tone}`,
+                  time: letters[0].createdAt ? new Date(letters[0].createdAt).toLocaleDateString() : 'Recent',
+                  badge: letters[0].tone,
+                  badgeClass: 'badge-gray',
+                  onClick: () => navigate('/cover-letter')
+                }] : []),
+                ...(resumes[0] ? [{
+                  icon: 'description',
+                  title: `Resume Uploaded: ${resumes[0].fileName}`,
+                  sub: `File size: ${Math.round(resumes[0].fileSize / 1024)} KB • Format: ${resumes[0].fileType.toUpperCase()}`,
+                  time: resumes[0].uploadedAt ? new Date(resumes[0].uploadedAt).toLocaleDateString() : 'Recent',
+                  badge: 'Uploaded',
+                  badgeClass: 'badge-blue',
+                  onClick: () => navigate('/resumes')
+                }] : [])
+              ].map((item, i) => (
+                <div key={i} className="activity-item" onClick={item.onClick} style={{ cursor: 'pointer' }}>
+                  <div className="activity-icon">
+                    <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{item.icon}</span>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="activity-title">{item.title}</div>
+                    <div className="activity-sub">{item.sub}</div>
+                  </div>
+                  <div className="activity-meta">
+                    <span className="activity-time">{item.time}</span>
+                    {item.badge && <span className={`badge ${item.badgeClass}`} style={{ marginTop: 4 }}>{item.badge}</span>}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

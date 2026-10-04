@@ -198,14 +198,40 @@ function Hero() {
             </div>
           </div>
 
-          {/* Right: Dashboard preview image */}
+          {/* Right: Dashboard preview card */}
           <div className="hero-image-wrapper">
             <div className="hero-image-glow" aria-hidden="true" />
-            <div className="hero-image-card">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC2sY-OCMu-ya3jG5HWufC4U5l1oeq-hqd9G1Xfzl1TZi9u4WfxlWURegGSUovA5SIjCRzv0jAJEqGtPBoSuFwXKQxaEnpI0ADjvI9JQ9zm55sXFhBRHWcJegZIQCXTCVTTLruzPwj-9v2MH_0A0jsMsOSMIs3IxZ2bZImtY-Z40tGPN7_je-KqHmFA-zHFQc42KADwpW5HftVF8I73R7-jmTqOl7uf5UyFnp-wN9kZw0zWUcJos3ShMb4qp1JeWRp-MFdLzAir8UT"
-                alt="JobPilotAi Dashboard Preview – AI job search platform interface with match scores and analytics"
-              />
+            <div className="hero-image-card" style={{ padding: 24, background: 'var(--color-surface-container-lowest)', borderRadius: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ef4444' }} />
+                  <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#eab308' }} />
+                  <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#22c55e' }} />
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-on-surface)', marginLeft: 8 }}>JobPilotAi Console</span>
+                </div>
+                <span className="badge badge-green">Live Engine v2.4</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>ATS Match Score</div>
+                  <div style={{ fontSize: 36, fontWeight: 700, color: 'var(--color-primary)', fontFamily: 'Hanken Grotesk', marginTop: 4 }}>88%</div>
+                  <div style={{ fontSize: 12, color: 'var(--color-primary-fixed-dim)', marginTop: 4 }}>+14% vs Market Benchmark</div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Keyword Coverage</div>
+                  <div style={{ fontSize: 36, fontWeight: 700, color: 'var(--color-secondary)', fontFamily: 'Hanken Grotesk', marginTop: 4 }}>94%</div>
+                  <div style={{ fontSize: 12, color: 'var(--color-on-surface-variant)', marginTop: 4 }}>18 Core Skills Detected</div>
+                </div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.02)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 600, color: 'var(--color-on-surface)', marginBottom: 8 }}>
+                  <span>AI Optimization Progress</span>
+                  <span style={{ color: 'var(--color-primary)' }}>Optimal</span>
+                </div>
+                <div className="progress-track" style={{ height: 8 }}>
+                  <div className="progress-fill" style={{ width: '88%' }} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -498,8 +524,8 @@ function TestimonialCard({
       </div>
       <p className="testimonial-text">{testimonial.quote}</p>
       <div className="testimonial-author">
-        <div className="testimonial-avatar">
-          <img src={testimonial.avatar} alt={`${testimonial.name} profile`} />
+        <div className="testimonial-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-primary-container)', color: 'var(--color-on-primary)', fontWeight: 700, fontSize: 16 }}>
+          {testimonial.name.split(' ').map(n => n[0]).join('')}
         </div>
         <div>
           <p className="testimonial-name">{testimonial.name}</p>

@@ -77,7 +77,7 @@ export default function ProfilePage() {
       <form onSubmit={handleSave}>
         <div className="settings-section">
           <div className="settings-section-title">Personal Information</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
             <div className="app-input-group">
               <label className="app-label">First Name</label>
               <div className="app-input-wrap">
